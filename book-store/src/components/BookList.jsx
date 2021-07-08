@@ -15,7 +15,7 @@ class BookList extends Component {
   };
   search = () => {
     const matchedBooks = this.props.books.filter((book) =>
-      book.title.toLowerCase().includes(this.state.query)
+      book.title.toLowerCase().includes(this.state.query.toLowerCase())
     );
     this.setState({ books: matchedBooks });
     console.log(this.state.books);
@@ -37,7 +37,7 @@ class BookList extends Component {
             </Button>
           </Form>
         </Row>
-        <Row className="my-5">
+        {/* <Row className="my-5 border">
           <h4>Search Result</h4>
           {this.state.books &&
             this.state.books.map((book) => (
@@ -45,13 +45,19 @@ class BookList extends Component {
                 <SingleBook book={book} />
               </Col>
             ))}
-        </Row>
-        <Row>
-          {this.props.books.map((book) => (
-            <Col xs={12} md={4} lg={3}>
-              <SingleBook book={book} />
-            </Col>
-          ))}
+        </Row> */}
+        <Row className="mt-5">
+          {this.state.books
+            ? this.state.books.map((book) => (
+                <Col xs={12} sm={4} md={3} lg={2}>
+                  <SingleBook book={book} />
+                </Col>
+              ))
+            : this.props.books.map((book) => (
+                <Col xs={12} md={4} lg={3}>
+                  <SingleBook book={book} />
+                </Col>
+              ))}
         </Row>
       </Container>
     );

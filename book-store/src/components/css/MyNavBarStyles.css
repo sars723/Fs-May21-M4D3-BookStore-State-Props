@@ -1,0 +1,10 @@
+.navbar-nav .nav-link {
+  color: rgb(248, 238, 238) !important;
+  font-weight: bold;
+  margin-right: 50px;
+}
+.navbar-nav .nav-link:hover {
+  color: white !important;
+  font-weight: bolder;
+  transform: scale(1.2);
+}
