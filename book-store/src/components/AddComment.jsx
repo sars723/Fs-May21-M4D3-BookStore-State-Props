@@ -6,6 +6,7 @@ export default class AddComment extends Component {
     comments: {
       comment: "",
       rate: 1,
+      elementId: "",
     },
   };
   handleChange = (key, value) => {
@@ -15,19 +16,35 @@ export default class AddComment extends Component {
         [key]: value,
       },
     });
+    console.log(this.state.comments);
   };
   handleSubmit = async () => {
     try {
-      const response = await fetch(
+      /*     const response = await fetch(
         " https://striveschool-api.herokuapp.com/api/comments/" +
-          this.props.ASIN,
+          this.props.book.asin,
         {
           method: "POST",
           body: JSON.stringify(this.state.comments),
           header: {
             "content-type": "application/json",
+
+            headers: {
+              Authorization:
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGFlM2YzMGNlYWY0ODAwMTVjOTE4NjkiLCJpYXQiOjE2MjU3NjU5MjYsImV4cCI6MTYyNjk3NTUyNn0.mG30nOku9zWiAwzzXDKObPmdvi867vPVrtbkFsstOSs",
+            },
+          },
+        }
+      ); */
+      const response = await fetch(
+        "https://striveschool-api.herokuapp.com/api/comments",
+        {
+          method: "POST",
+          body: JSON.stringify(this.state.comments),
+          headers: {
+            "Content-type": "application/json",
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGFlM2YzMGNlYWY0ODAwMTVjOTE4NjkiLCJpYXQiOjE2MjUwMjYxOTIsImV4cCI6MTYyNjIzNTc5Mn0.PsxaF5WqdL3M99ArdsNnDDq7wUtiPxw_4Nn-WRpsftI",
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGFlM2YzMGNlYWY0ODAwMTVjOTE4NjkiLCJpYXQiOjE2MjU3NjU5MjYsImV4cCI6MTYyNjk3NTUyNn0.mG30nOku9zWiAwzzXDKObPmdvi867vPVrtbkFsstOSs",
           },
         }
       );
@@ -47,7 +64,6 @@ export default class AddComment extends Component {
           <Form.Label>rate</Form.Label>
           <Form.Control
             as="select"
-            id="numberOfPeople"
             value={this.state.comments.rate}
             onChange={(e) => {
               this.handleChange("rate", e.target.value);
@@ -69,6 +85,18 @@ export default class AddComment extends Component {
             value={this.state.comments.comment}
             onChange={(e) => {
               this.handleChange("comment", e.target.value);
+            }}
+          />
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Label>Id</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter id"
+            value={this.state.comments.elementId}
+            onChange={(e) => {
+              this.handleChange("elementId", e.target.value);
             }}
           />
         </Form.Group>

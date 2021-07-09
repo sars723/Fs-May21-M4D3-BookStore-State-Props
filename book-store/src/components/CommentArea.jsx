@@ -10,15 +10,16 @@ export default class CommentArea extends Component {
     try {
       const response = await fetch(
         "https://striveschool-api.herokuapp.com/api/comments/" +
-          this.props.book.ASIN,
+          this.props.book.asin,
         {
-          header: {
+          headers: {
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGFlM2YzMGNlYWY0ODAwMTVjOTE4NjkiLCJpYXQiOjE2MjUwMjYxOTIsImV4cCI6MTYyNjIzNTc5Mn0.PsxaF5WqdL3M99ArdsNnDDq7wUtiPxw_4Nn-WRpsftI",
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGFlM2YzMGNlYWY0ODAwMTVjOTE4NjkiLCJpYXQiOjE2MjU3NjU5MjYsImV4cCI6MTYyNjk3NTUyNn0.mG30nOku9zWiAwzzXDKObPmdvi867vPVrtbkFsstOSs",
           },
         }
       );
       const fetchedComments = await response.json();
+      console.log(fetchedComments);
       this.setState({ comments: fetchedComments });
     } catch (error) {
       console.log(error);
@@ -27,7 +28,11 @@ export default class CommentArea extends Component {
   render() {
     return (
       <div>
-        <img src={this.props.book.img} alt="" />
+        <img
+          src={this.props.book.img}
+          alt=""
+          style={{ width: "40px", marginTop: "10px" }}
+        />
         <CommentList comments={this.state.comments} />
         <AddComment book={this.props.book} />
       </div>
