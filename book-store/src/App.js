@@ -14,7 +14,7 @@ function App() {
        <MyNavBar />
       <WarningSign text="I am an alert"/>
  <MyBadge color="success" text="i am a badge"/>
- <SingleBook book={fantasy[0]}/>
+
  <BookList books={fantasy}/>
     </div>
   );

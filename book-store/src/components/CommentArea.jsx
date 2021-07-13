@@ -6,11 +6,11 @@ export default class CommentArea extends Component {
   state = {
     comments: [],
   };
-  componentDidMount = async () => {
+  fetchComments = async () => {
     try {
       const response = await fetch(
         "https://striveschool-api.herokuapp.com/api/comments/" +
-          this.props.book.asin,
+          this.props.asin,
         {
           headers: {
             Authorization:
@@ -25,16 +25,28 @@ export default class CommentArea extends Component {
       console.log(error);
     }
   };
+  componentDidMount = async () => {
+    this.fetchComments();
+  };
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.asin !== this.props.asin) {
+      this.fetchComments();
+    }
+  };
+
   render() {
     return (
       <div>
-        <img
+        {/*  <img
           src={this.props.book.img}
           alt=""
           style={{ width: "40px", marginTop: "10px" }}
+        /> */}
+        <CommentList
+          comments={this.state.comments}
+          fetchComments={this.fetchComments}
         />
-        <CommentList comments={this.state.comments} />
-        <AddComment book={this.props.book} />
+        <AddComment asin={this.props.asin} fetchComments={this.fetchComments} />
       </div>
     );
   }

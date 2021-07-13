@@ -6,7 +6,7 @@ export default class AddComment extends Component {
     comments: {
       comment: "",
       rate: 1,
-      elementId: "",
+      elementId: this.props.asin,
     },
   };
   handleChange = (key, value) => {
@@ -18,9 +18,18 @@ export default class AddComment extends Component {
     });
     console.log(this.state.comments);
   };
+  componentDidUpdate(prevProps) {
+    if (prevProps.asin !== this.props.asin) {
+      this.setState({
+        comment: {
+          ...this.state.comment,
+          elementId: this.props.asin,
+        },
+      });
+    }
+  }
   handleSubmit = async () => {
     try {
-    
       const response = await fetch(
         "https://striveschool-api.herokuapp.com/api/comments",
         {
@@ -35,6 +44,7 @@ export default class AddComment extends Component {
       );
       if (response.ok) {
         alert("comments saved");
+        this.props.fetchComments();
       } else {
         alert("sth wrong ");
       }
@@ -75,15 +85,8 @@ export default class AddComment extends Component {
         </Form.Group>
 
         <Form.Group>
-          <Form.Label>Id</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter id"
-            value={this.state.comments.elementId}
-            onChange={(e) => {
-              this.handleChange("elementId", e.target.value);
-            }}
-          />
+          <Form.Label>Movie Id</Form.Label>
+          <Form.Control type="text" value={this.props.asin} disabled />
         </Form.Group>
         <Button variant="primary" type="submit">
           Submit

@@ -6,7 +6,7 @@ export default class CommentList extends Component {
     return (
       <>
         {this.props.comments.map((c) => (
-          <SingleComment comment={c} />
+          <SingleComment comment={c} fetchComments={this.props.fetchComments} />
         ))}
       </>
     );

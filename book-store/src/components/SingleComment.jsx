@@ -16,6 +16,7 @@ export default class SingleComment extends Component {
       );
       if (response.ok) {
         alert("comment deleted successfully");
+        this.props.fetchComments();
       } else {
         alert("sth wrong");
       }
