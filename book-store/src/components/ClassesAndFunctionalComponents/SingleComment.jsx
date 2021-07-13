@@ -1,10 +1,8 @@
-import { useState } from "react";
+import React, { Component } from "react";
 import { ListGroup, Button } from "react-bootstrap";
-import Warning from "./Warning";
 
-const SingleComment = (props) => {
-  const [isError, setIsError] = useState(false);
-  const deleteComment = async (id) => {
+export default class SingleComment extends Component {
+  deleteComment = async (id) => {
     try {
       const response = await fetch(
         " https://striveschool-api.herokuapp.com/api/comments/" + id,
@@ -18,37 +16,32 @@ const SingleComment = (props) => {
       );
       if (response.ok) {
         alert("comment deleted successfully");
-        props.fetchComments();
+        this.props.fetchComments();
       } else {
-        setIsError(true);
         alert("sth wrong");
       }
     } catch (error) {
-      setIsError(true);
       console.log(error);
     }
   };
-
-  return (
-    <>
-      {isError && <Warning variant="danger" msg="error" />}
+  render() {
+    return (
       <ListGroup>
         <ListGroup.Item>
           {/*  <span>Comment:</span> */}
-          {props.comment.comment}
+          {this.props.comment.comment}
         </ListGroup.Item>
         <ListGroup.Item>
           {/*  <span>rate:</span> */}
-          {props.comment.rate}
+          {this.props.comment.rate}
         </ListGroup.Item>
         <Button
           variant="danger"
-          onClick={() => deleteComment(props.comment._id)}
+          onClick={() => this.deleteComment(this.props.comment._id)}
         >
           Delete
         </Button>
       </ListGroup>
-    </>
-  );
-};
-export default SingleComment;
+    );
+  }
+}

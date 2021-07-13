@@ -1,44 +1,43 @@
-import React, { Component } from "react";
+import { useState } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import CommentArea from "./CommentArea";
 
-class SingleBook extends Component {
-  state = {
+const SingleBook = (props) => {
+  const [selected, setSelected] = useState(false);
+  /*  state = {
     selected: false,
-  };
-  render() {
-    return (
-      <Container style={{ paddingBottom: "1rem" }}>
-        <Row>
-          <Card
-            className="cardstyle"
-            // onClick={() => this.setState({ selected: !this.state.selected })}
+  }; */
 
-            // style={{ border: this.state.selected ? "3px solid red" : "none" }}
-          >
-            <Card.Link href="#">
-              <Card.Img
-                variant="top"
-                src={this.props.book.img}
-                onClick={() => {
-                  this.props.getSelectedBook(this.props.book.asin);
-                }}
-              />
-            </Card.Link>
+  return (
+    <Container style={{ paddingBottom: "1rem" }}>
+      <Row>
+        <Card
+          className="cardstyle"
+          // onClick={() => this.setState({ selected: !this.state.selected })}
 
-            <Card.Body>
-              <Card.Title>
-                <small>{this.props.book.title}</small>
-              </Card.Title>
-            </Card.Body>
-          </Card>
-        </Row>
-        <Row>
-          {/* {this.state.selected && <CommentArea book={this.props.book} />} */}
-        </Row>
-      </Container>
-    );
-  }
-}
+          style={{ border: selected ? "3px solid red" : "none" }}
+        >
+          <Card.Link href="#">
+            <Card.Img
+              variant="top"
+              src={props.book.img}
+              onClick={() => {
+                props.getSelectedBookAsin(props.book.asin);
+                setSelected(!selected);
+              }}
+            />
+          </Card.Link>
+
+          <Card.Body>
+            <Card.Title>
+              <small>{props.book.title}</small>
+            </Card.Title>
+          </Card.Body>
+        </Card>
+      </Row>
+      <Row>{/* {selected && <CommentArea asin={props.book.asin} />} */}</Row>
+    </Container>
+  );
+};
 
 export default SingleBook;

@@ -1,41 +1,24 @@
-import { useState, useEffect } from "react";
+import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
-import Warning from "./Warning";
 
-const AddComment = (props) => {
-  const [comments, setComments] = useState({
-    comment: "",
-    rate: 1,
-    elementId: props.asin,
-  });
-  const [isError, setIsError] = useState(false);
-  /* state = {
+export default class AddComment extends Component {
+  state = {
     comments: {
       comment: "",
       rate: 1,
       elementId: this.props.asin,
     },
-  }; */
-  const handleChange = (key, value) => {
-    setComments({
-      ...comments,
-      [key]: value,
-    });
-    /*  this.setState({
+  };
+  handleChange = (key, value) => {
+    this.setState({
       comments: {
         ...this.state.comments,
         [key]: value,
       },
-    }); */
-    console.log(comments);
-  };
-  useEffect(() => {
-    setComments({
-      ...comments,
-      elementId: props.asin,
     });
-  }, [props.asin]);
-  /*  componentDidUpdate(prevProps) {
+    console.log(this.state.comments);
+  };
+  componentDidUpdate(prevProps) {
     if (prevProps.asin !== this.props.asin) {
       this.setState({
         comment: {
@@ -44,14 +27,14 @@ const AddComment = (props) => {
         },
       });
     }
-  } */
-  const handleSubmit = async () => {
+  }
+  handleSubmit = async () => {
     try {
       const response = await fetch(
         "https://striveschool-api.herokuapp.com/api/comments",
         {
           method: "POST",
-          body: JSON.stringify(comments),
+          body: JSON.stringify(this.state.comments),
           headers: {
             "Content-type": "application/json",
             Authorization:
@@ -61,33 +44,24 @@ const AddComment = (props) => {
       );
       if (response.ok) {
         alert("comments saved");
-        props.fetchComments();
-        setComments({
-          comment: "",
-          rate: 1,
-          elementId: props.asin,
-        });
+        this.props.fetchComments();
       } else {
-        setIsError(true);
         alert("sth wrong ");
       }
     } catch (error) {
-      setIsError(true);
       console.log(error);
     }
   };
-
-  return (
-    <>
-      {isError && <Warning variant="danger" msg="error" />}
-      <Form onSubmit={handleSubmit}>
+  render() {
+    return (
+      <Form onSubmit={this.handleSubmit}>
         <Form.Group>
           <Form.Label>rate</Form.Label>
           <Form.Control
             as="select"
-            value={comments.rate}
+            value={this.state.comments.rate}
             onChange={(e) => {
-              handleChange("rate", e.target.value);
+              this.handleChange("rate", e.target.value);
             }}
           >
             <option>1</option>
@@ -103,22 +77,21 @@ const AddComment = (props) => {
           <Form.Control
             as="textarea"
             rows={3}
-            value={comments.comment}
+            value={this.state.comments.comment}
             onChange={(e) => {
-              handleChange("comment", e.target.value);
+              this.handleChange("comment", e.target.value);
             }}
           />
         </Form.Group>
 
         <Form.Group>
           <Form.Label>Movie Id</Form.Label>
-          <Form.Control type="text" value={props.asin} disabled />
+          <Form.Control type="text" value={this.props.asin} disabled />
         </Form.Group>
         <Button variant="primary" type="submit">
           Submit
         </Button>
       </Form>
-    </>
-  );
-};
-export default AddComment;
+    );
+  }
+}
