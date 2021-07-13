@@ -1,6 +1,8 @@
-import { Navbar, Nav } from "react-bootstrap";
+import { Navbar, Nav, FormControl, Button, Form } from "react-bootstrap";
+import { useState } from "react";
 import "./css/MyNavBarStyles.css";
-const MyNavBar = () => {
+const MyNavBar = (props) => {
+  const [query, setQuery] = useState("");
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark">
       <Navbar.Brand href="#home">
@@ -17,6 +19,18 @@ const MyNavBar = () => {
           <Nav.Link href="#pricing">About</Nav.Link>
           <Nav.Link href="#pricing">Browse</Nav.Link>
         </Nav>
+        <Form inline>
+          <FormControl
+            type="text"
+            placeholder="Search"
+            className="mr-sm-2"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <Button variant="outline-success" onClick={props.getQuery(query)}>
+            Search
+          </Button>
+        </Form>
       </Navbar.Collapse>
     </Navbar>
   );

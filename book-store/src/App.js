@@ -7,15 +7,17 @@ import SingleBook from './components/SingleBook';
 import Warning from './components/Warning'
 import BookList from './components/BookList';
 import MyNavBar from './components/MyNavBar'
+import {useState} from 'react'
 
 function App() {
+  const [query,setQuery]=useState("")
   return (
     <div className="App">
-       <MyNavBar />
+       <MyNavBar getQuery={query=>setQuery(query)} />
       <Warning msg="I am an alert" variant="success"/>
  <MyBadge color="success" text="i am a badge"/>
 
- <BookList books={fantasy}/>
+ <BookList books={fantasy} query={query} />
     </div>
   );
 }
